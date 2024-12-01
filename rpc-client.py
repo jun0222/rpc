@@ -1,4 +1,5 @@
 import socket
+import json
 
 server_address = './rpc_socket_file'
 
@@ -8,7 +9,12 @@ sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 try:
     # サーバーに接続
     sock.connect(server_address)
-    message = '1'
+    message = json.dumps({
+        "method": "validAnagram",  # ここを変更すると他の関数を呼び出せる
+        "params": ["hello", "olleh"], # ここを変更すると他の関数を呼び出せる
+        "param_types": ["int", "int"],
+        "id": 1
+    })
     print(f'Sending {message}')
     sock.sendall(message.encode('utf-8'))
 
